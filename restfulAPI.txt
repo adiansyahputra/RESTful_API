@@ -360,3 +360,162 @@ http://api.example.com/v1/products
 http://api.example.com/v2/products
 http://api.example.com/2019/products
 http://api.example.com/2020/products 
+
+Versioning Menggunakan HTTP Header
+HTTP Header => API-Version : 1
+HTTP Header => API-Version : 2
+HTTP Header => X-API-Version : 2019
+HTTP Header => X-API-Version : 2020
+
+Stateless
+
+Stateless RESTful API
+Stateless sederhananya adalah tidak menyimpan state atau data
+RESTful API yang baik tidak pernah menyimpan state atau data antar request
+Setiap request dari client ke server, harus berisikan semua informasi lengkap yang dibutuhkan oleh server.
+Client bertanggung jawab menyimpan dan melakukan manajemen state yang berhubungan dengan client.
+Stateless artinya setiap HTTP Request adalah proses independent, tidak bergantung dengan HTTP Request lainnya.
+Server tidak boleh tergantung dengan request dari client sebelumnya.
+
+Problem Stateful RESTful API
+
+Menggunakan Stateless RESTful API
+
+Keuntungan Stateless RESTful API
+RESTful API yang stateless akan mudah di scaling secara horizontal, karena request dari client bisa masuk ke server mana saja, sehingga untuk scaling hanya tinggal menambah server baru.
+Sederhana, karena tidak perlu tahu state sebelumnya yang sangat kompleks.
+Setiap request client akan sangat lengkap, sehingga mudah untuk di track dan di cek request nya.
+
+HATEOAS
+HATEOAS singkatan dari Hypermedia as the Engine of Application State
+Hypermedia artinya content yang memiliki link menuju resource yang ada
+
+Contoh HATEOAS (1)
+
+Contoh HATEOAS (2)
+
+Keuntungan Menggunakan HATEOAS
+Biasanya URL API pada RESTful API sudah di hardcode di Client
+Dengan menggunakan HATEOAS, client bisa secara dinamis mendapatkan URL lokasi resource dari response data Server
+
+Documentation
+
+RESTful API Documentation
+RESTful API tidak memiliki standar baku seperti SOAP, sehingga untuk memudahkan client dalam menggunakan RESTful API yang kita buat, sebaiknya kita menyediakan dokumentasi.
+Dokumentasi RESTful API bisa dibuat menggunakan apapun, dari dokumen sederhana menggunakan microsoft word, google doc, sampai menggunakan tool khusus untuk dokumentasi API
+Sangat disarankan untuk menggunakan tool khusus dokumentasi API.
+
+Contoh API Documentation
+Swagger
+Stoplight
+Redoc
+dan lain-lain
+
+Contoh Swagger UI
+
+OpenAPI
+OpenAPI adalah spesifikasi yang banyak diadopsi oleh industri untuk mendeskripsikan API.
+https://www.openapis.org/
+Contoh OpenAPI : https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v3.0
+
+Keuntungan Menggunakan OpenAPI
+Standard, sehingga bisa dibuat oleh programmer bahasa pemrograman apapun
+Mudah digunakan oleh client, karena sudah banyak tersedia generator untuk melakukan generate kode client dari OpenAPI Specification
+
+Development
+
+Kesalahan Ketika Membuat RESTful API
+Selalu membuat CRUD API untuk table di database
+Membuat response data sama dengan table di database
+Membuat API terlebih dahulu, baru mengerjakan Web atau Mobile menggunakan API yang sudah dibuat
+Mengembalikan data selengkap-lengkapnya di API
+Membuat API yang tidak dibutuhkan oleh Client
+
+Tahapan Membuat RESTful API
+
+Contoh : RESTful API Shopping Cart : Business Flow
+Customer menambahkan barang ke keranjang, bisa lebih dari satu barang
+Customer membuka halaman keranjang, bisa mengubah data quantity barang
+Customer memasukkan alamat pengiriman
+Customer menekan tombol order untuk membuat order
+...
+
+Contoh : RESTful API Shopping Cart : Screen
+
+Contoh : RESTful API Shopping Cart : API Doc
+Product Detail :
+GET /products/{productId}
+POST /carts
+Shopping Cart
+GET /carts
+PATCH /carts/products
+PATCH /carts/products/{productId}
+
+Shipping Address :
+GET /addresses
+POST /addresses
+PUT /carts/addresses
+POST /orders
+Order Detail :
+GET /orders/{orderId}
+
+Maintenance
+
+Maintenance RESTful API
+Dalam membuat produk, fitur pasti akan selalu bertambah
+Tak jarang kita mungkin melakukan perubahan di screen Web atau Mobile yang sama
+Oleh karena itu, maintenance RESTful API sangatlah penting, agar RESTful API kita tidak menjadi masalah di kemudian hari
+
+Improvement di Client
+
+Maintenance : yang Boleh Dilakukan
+Menambah data baru di API yang sudah ada
+Menambah API baru di endpoint URL berbeda
+Mempercepat proses di API yang sudah ada
+Menggabungkan beberapa API menjadi satu, tanpa menghilangkan API lama
+
+Maintenance : yang Tidak Boleh Dilakukan
+Mengubah total response data di API yang sudah ada
+Merubah field response data di API yang sudah ada
+Menghilangkan API yang sudah ada 
+Men-split API yang sudah ada menjadi dua atau lebih
+Menggabungkan beberapa API menjadi satu dengan menghapus API lama
+
+Maturity Model
+
+Richardson Maturity Model
+Leonard Richardson telah melakukan analisa banyak sekali Web Service, dan akhirnya menyimpulkan dalam 4 kategori, seberapa sempurna RESTful API
+https://www.crummy.com/writing/speaking/2008-QCon/act3.html 
+Level Zero
+Level One
+Level Two, dan
+Level Three
+
+Level Zero
+One URL, One HTTP Method
+Pada level zero, biasanya Web Service dibuat hanya menggunakan satu URL dan Satu HTTP Method
+Contoh adalah SOAP dan XML-RPC, biasanya hanya menggunakan satu URL dan HTTP Method POST saja untuk semua API
+Jika kita masih menggunakan teknik seperti ini, artinya kita masih berada di Level Zero
+
+Level One
+Many URLs, One HTTP Method
+Jika kita sudah menggunakan banyak URL ketika membuat Web Service, namun masih selalu menggunakan satu HTTP Method, maka kita berada di Level One
+Biasanya Web Service versi lama masih menggunakan format seperti ini, walaupun sudah menggunakan banyak URL, namun hanya menggunakan satu HTTP Method, biasanya menggunakan POST
+
+Level Two
+Many URLs, Each Supporting Multiple HTTP Methods
+Ini adalah level dinama kebanyakan Web Service saat ini
+Banyak URL, dan tiap URL biasanya mendukung satu atau lebih jenis HTTP Method
+Misal url yang sama, menggunakan GET untuk mengambil data, dan POST untuk menambah  data
+Jika kita sudah melakukan hal ini, artinya kita sudah berada di Level Two
+
+Level Three
+Resources describe their own capabilities and interconnections
+Level Three atau paling tinggi sebenarnya mirip dengan Level Two, yang membedakan adalah pada Level Threee setiap resource akan memberikan detail relasi ke resource lainnya, atau singkatnya adalah sudah mengimplementasikan HATEOAS
+Memang Level Three ini agak menyulitkan ketika diimplementasikan, dan kebanyakan programmer hanya  berhenti  di Level Two
+Dengan mengimplementasikan HATEOAS, kita bisa dengan mudah mendapat URL resource ke relasi data yang kita butuhkan
+
+Teknologi Lainnya
+OAuth
+JWT
+OpenAPI
